@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 @Entity
@@ -23,16 +24,9 @@ public class User {
     private String email;
     private String password;
 
-    @ManyToMany
-    @JoinTable(
-            name = "user_relationship",
-            joinColumns = @JoinColumn(name = "following_id"),
-            inverseJoinColumns = @JoinColumn(name = "follower_id")
-    )
-    private List<User> followers = new ArrayList<>();
+    private HashSet<Long> followers = new HashSet<>();
 
-    @ManyToMany(mappedBy = "followers")
-    private List<User> followings = new ArrayList<>();
+    private HashSet<Long> followings = new HashSet<>();
 
     @JsonIgnore
     @ManyToMany

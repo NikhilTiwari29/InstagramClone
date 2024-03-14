@@ -1,5 +1,6 @@
 package com.example.social.project.UserController;
 
+import com.example.social.project.ExceptionHandler.UserNotFoundException;
 import com.example.social.project.model.User;
 import com.example.social.project.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +24,13 @@ public class UserController {
             return (createdUser != null)
                     ? new ResponseEntity<>(createdUser, HttpStatus.CREATED)
                     : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>( e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
-           throw e;
+            throw e;
         }
     }
+
 
     @GetMapping("/")
     public ResponseEntity<?> getAllUsers() {
@@ -39,22 +43,25 @@ public class UserController {
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<?> getUserById(@PathVariable Long userId) throws Exception {
+    public ResponseEntity<?> getUserById(@PathVariable Long userId) {
         try {
             User userById = userServiceImpl.findUserById(userId);
-            return new ResponseEntity<>(userById, HttpStatus.OK);
+            return ResponseEntity.ok(userById);
+        } catch (UserNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (Exception e) {
-           throw e;
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal Server Error: " + e.getMessage());
         }
     }
-
     @PutMapping("/{userId}")
-    public ResponseEntity<?> updateUser(@RequestBody User user, @PathVariable Long userId) throws Exception {
+    public ResponseEntity<?> updateUser(@RequestBody User user, @PathVariable Long userId) {
         try {
             User updatedUser = userServiceImpl.updateUser(user, userId);
-            return new ResponseEntity<>(updatedUser, HttpStatus.NO_CONTENT);
+            return ResponseEntity.status(HttpStatus.OK).body(updatedUser);
+        } catch (UserNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (Exception e) {
-           throw e;
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal Server Error: " + e.getMessage());
         }
     }
 
