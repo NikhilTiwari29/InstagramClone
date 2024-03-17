@@ -1,4 +1,4 @@
-package com.example.social.project.Repository;
+package com.example.social.project.repository;
 
 import com.example.social.project.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;

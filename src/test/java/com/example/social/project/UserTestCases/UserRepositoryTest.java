@@ -1,6 +1,6 @@
 package com.example.social.project.UserTestCases;
 
-import com.example.social.project.Repository.UserRepository;
+import com.example.social.project.repository.UserRepository;
 import com.example.social.project.model.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

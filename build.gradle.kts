@@ -38,6 +38,8 @@ dependencies {
 	testImplementation("org.mockito:mockito-core:3.12.4")
 	testImplementation("org.mockito:mockito-junit-jupiter:3.12.4")
 
+	implementation("org.springframework.boot:spring-boot-starter-security")
+
 }
 
 tasks.withType<Test> {

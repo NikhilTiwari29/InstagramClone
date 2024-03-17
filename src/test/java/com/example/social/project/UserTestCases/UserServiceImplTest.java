@@ -1,7 +1,7 @@
 package com.example.social.project.UserTestCases;
 
 import com.example.social.project.ExceptionHandler.UserNotFoundException;
-import com.example.social.project.Repository.UserRepository;
+import com.example.social.project.repository.UserRepository;
 import com.example.social.project.model.User;
 import com.example.social.project.service.UserServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;

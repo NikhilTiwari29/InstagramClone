@@ -1,10 +1,9 @@
 package com.example.social.project.service;
 
 import com.example.social.project.ExceptionHandler.UserNotFoundException;
-import com.example.social.project.Repository.UserRepository;
+import com.example.social.project.repository.UserRepository;
 import com.example.social.project.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.RequestEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

@@ -16,52 +16,60 @@ public class PostController {
     PostServiceImpl postServiceImpl;
 
     @PostMapping("/createPost/user/{userId}")
-    public ResponseEntity<?> createPost(@RequestBody Post post,@PathVariable Long userId) throws Exception {
+    public ResponseEntity<?> createPost(@RequestBody Post post, @PathVariable Long userId) {
         try {
             Post createdPost = postServiceImpl.createPost(post, userId);
-            return (createdPost != null)
-                    ? new ResponseEntity<>(createdPost, HttpStatus.CREATED)
-                    : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-        catch (Exception e) {
-            throw e;
+            return new ResponseEntity<>(createdPost, HttpStatus.CREATED);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Internal server error", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @DeleteMapping("/postId/{postId}/userId/{userId}")
-    public ResponseEntity<String> deletePost(@PathVariable Long postId,@PathVariable Long userId) throws Exception {
-          try {
-              String message = postServiceImpl.deletePost(postId, userId);
-              return new ResponseEntity<>(message,HttpStatus.OK);
-          } catch (Exception e) {
-              throw e;
-          }
+    public ResponseEntity<String> deletePost(@PathVariable Long postId, @PathVariable Long userId) {
+        try {
+            String message = postServiceImpl.deletePost(postId, userId);
+            return new ResponseEntity<>(message, HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
+            // IllegalArgumentException occurs when the user tries to delete another user's post
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            // Other exceptions are considered as internal server errors
+            return new ResponseEntity<>("Internal server error", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping("/userId/{userId}")
-    public ResponseEntity<?> findPostByUserId(@PathVariable Long userId) throws Exception {
+    public ResponseEntity<?> findPostByUserId(@PathVariable Long userId) {
         try {
             Post postByUserId = postServiceImpl.findPostByUserId(userId);
             return new ResponseEntity<>(postByUserId, HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
-            throw e;
+            return new ResponseEntity<>("Internal server error", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @GetMapping("/postId/{postId}")
-    public ResponseEntity<?> findPostById(@PathVariable Long postId) throws Exception {
+    public ResponseEntity<?> findPostById(@PathVariable Long postId) {
         try {
             Post postById = postServiceImpl.findPostById(postId);
             return new ResponseEntity<>(postById, HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
-            throw e;
+            return new ResponseEntity<>("Internal server error", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 
     @GetMapping("/")
     public ResponseEntity<?> getAllPost() throws Exception {
         try {
-            List<Post> allPost = postServiceImpl.findAllPost();
+            List<Post> allPost = postServiceImpl.findAllPosts();
             return new ResponseEntity<>(allPost, HttpStatus.OK);
         } catch (Exception e) {
             throw e;

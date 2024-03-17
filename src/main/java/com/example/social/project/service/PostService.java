@@ -9,7 +9,7 @@ public interface PostService {
     String deletePost(Long postId,Long userId) throws Exception;
     Post findPostByUserId(Long userId) throws Exception;
     Post findPostById(Long postId) throws Exception;
-    List<Post> findAllPost();
+    List<Post> findAllPosts();
     Post savePost(Long postId,Long userId) throws Exception;
     Post likePost(Long postId,Long userId) throws Exception;
 
